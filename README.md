@@ -1,4 +1,4 @@
-# defense unicorns uds test
+# Defense Unicorns UDS Test
 
 ## Demo
 
@@ -12,5 +12,6 @@
 ## Excalidraw Test
 
 - want to add my own uds package
+  - put podinfo-demo away in a folder
+- zarf yaml schema vs maru yaml schema
 - uds package requirements (DU engineer mandatory)
-  - 
