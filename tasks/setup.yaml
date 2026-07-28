@@ -1,0 +1,163 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
+variables:
+  - name: KEYCLOAK_GROUP
+  - name: USE_CHECKPOINT
+    default: "true"
+
+tasks:
+  - name: k3d-test-cluster
+    description: Creates a k3d cluster for testing based on the K3d + UDS Core Slim Dev bundle
+    inputs:
+      version:
+        description: The version of k3d-core-slim-dev to deploy
+        # renovate: datasource=github-tags depName=defenseunicorns/uds-core versioning=semver
+        default: 1.9.0
+      snapshots:
+        description: Whether to pull from the nightly snapshot repository
+        default: "false"
+      insecure_keycloak_admin:
+        description: Automatically set a keycloak admin username / password
+        default: "true"
+      use_checkpoint:
+        description: Whether to use the checkpoint release for faster cluster starts on Linux
+        default: ${USE_CHECKPOINT}
+      options:
+        description: For setting deploy time variables and flags
+    actions:
+      - description: Create k3d cluster with slim UDS Core
+        cmd: |
+          if [ "${{ .inputs.use_checkpoint }}" = "true" ] && [ "${{ .inputs.snapshots }}" = "false" ]; then
+            ./zarf package deploy oci://ghcr.io/defenseunicorns/dev/uds/checkpoints/k3d-core-slim-dev:${{ .inputs.version }} --confirm ${{ .inputs.options }} --features values=true
+          else
+            ./uds deploy oci://defenseunicorns/uds/${{ if eq .inputs.snapshots "true" }}snapshots/${{ end }}bundles/k3d-core-slim-dev:${{ .inputs.version }} --set INSECURE_ADMIN_PASSWORD_GENERATION=${{ .inputs.insecure_keycloak_admin }} --confirm --no-progress ${{ .inputs.options }}
+          fi
+      - description: Validate Keycloak endpoint
+        wait:
+          network:
+            protocol: https
+            address: sso.uds.dev
+            code: 200
+
+  - name: k3d-full-cluster
+    description: Creates a k3d cluster for testing based on the K3d + UDS Core Full bundle
+    inputs:
+      version:
+        description: The version of k3d-core-demo to deploy
+        # renovate: datasource=github-tags depName=defenseunicorns/uds-core versioning=semver
+        default: 1.9.0
+      snapshots:
+        description: Whether to pull from the nightly snapshot repository
+        default: "false"
+      insecure_keycloak_admin:
+        description: Automatically set a keycloak admin username / password
+        default: "true"
+      options:
+        description: For setting deploy time variables and flags
+    actions:
+      - description: Deploy all of the UDS Core Package into the current cluster
+        cmd: ./uds deploy oci://defenseunicorns/uds/${{ if eq .inputs.snapshots "true" }}snapshots/${{ end }}bundles/k3d-core-demo:${{ .inputs.version }} --set INSECURE_ADMIN_PASSWORD_GENERATION=${{ .inputs.insecure_keycloak_admin }} --confirm --no-progress ${{ .inputs.options }}
+
+  - name: print-keycloak-admin-password
+    description: Print the default keycloak 'admin' password to standard out (if INSECURE_ADMIN_PASSWORD_GENERATION was used on uds-core)
+    actions:
+      - description: Print the default keycloak admin password to standard out (if available)
+        cmd: |
+          USERNAME=$(./zarf tools kubectl get secret keycloak-admin-password -n keycloak -o jsonpath='{.data.username}' | base64 --decode)
+          PASSWORD=$(./zarf tools kubectl get secret keycloak-admin-password -n keycloak -o jsonpath='{.data.password}' | base64 --decode)
+
+          printf "\033[31m!!! Please ensure you're not running this in CI !!!\033[0m\n"
+          printf "Keycloak Admin Username: \033[31m %s \033[0m\n" "$USERNAME"
+          printf "Keycloak Admin Password: \033[31m %s \033[0m\n" "$PASSWORD"
+
+  - name: keycloak-admin-user
+    description: Sets up the Keycloak admin user for dev/testing if not already created
+    inputs:
+      port:
+        description: Local port for the Keycloak port-forward (override if 8080 is already in use)
+        default: "8080"
+        required: false
+    actions:
+      - description: Create Keycloak Admin User
+        cmd: |
+          # Check if the secret exists
+          if ./zarf tools kubectl get secret keycloak-admin-password -n keycloak > /dev/null 2>&1; then
+            echo "Admin user exists, skipping..."
+          else
+            # Start port-forward with zarf
+            ./zarf tools kubectl port-forward -n keycloak svc/keycloak-http ${{ .inputs.port }}:8080 &
+            PF_PID=$!
+
+            # Wait a bit to ensure port-forward is ready
+            sleep 5
+
+            # Create admin user with curl
+            ADMIN_USER="${{ .inputs.admin_username }}"
+            ADMIN_PASS="${{ .inputs.admin_password }}"
+            PASSWORD=$(openssl rand -base64 12)
+            STATE_COOKIE=$(curl -sSf  --output /dev/null --cookie-jar - http://localhost:${{ .inputs.port }}/ | grep "WELCOME_STATE_CHECKER" | awk '{print $7}')
+            curl -sSf -o /dev/null http://localhost:${{ .inputs.port }}/ \
+              -H "Cookie: WELCOME_STATE_CHECKER=${STATE_COOKIE}" \
+              -H "Content-Type: application/x-www-form-urlencoded" \
+              --data-urlencode "username=${ADMIN_USER}" \
+              --data-urlencode "password=${ADMIN_PASS}" \
+              --data-urlencode "passwordConfirmation=${ADMIN_PASS}" \
+              --data-urlencode "stateChecker=${STATE_COOKIE}"
+
+            # Kill the port-forward
+            kill $PF_PID
+
+            ./zarf tools kubectl create secret generic keycloak-admin-password \
+              --from-literal=username="${ADMIN_USER}"\
+              --from-literal=password="${ADMIN_PASS}" \
+              -n keycloak
+          fi
+
+  - name: keycloak-user
+    description: Creates a Keycloak user in the UDS Realm
+    inputs:
+      group:
+        description: Group to add user to
+        default: $KEYCLOAK_USER_GROUP
+        required: false
+      username:
+        description: The username of the user to create
+        default: doug
+        required: false
+      password:
+        description: The password of the user to create
+        default: unicorn123!@#UN
+        required: false
+      first_name:
+        description: First name of the user to create
+        default: Doug
+        required: false
+      last_name:
+        description: First name of the user to create
+        default: Unicorn
+        required: false
+      port:
+        description: Local port for the Keycloak port-forward (override if 8080 is already in use)
+        default: "8080"
+        required: false
+      admin_username:
+        description: You already know
+        default: rwt
+        required: false
+      admin_password:
+        description: me
+        sensitive: true
+        required: true
+    actions:
+  - name: create-doug-user
+    description: DEPRECATED! Please consider using keycloak-user instead
+    inputs:
+      keycloak_group:
+        description: Group to add user to
+        default: $KEYCLOAK_GROUP
+        required: false
+    actions:
+      - task: keycloak-user
+        with:
+          group: ${{ .inputs.keycloak_group }}
