@@ -1,13 +1,29 @@
-# Copyright 2024 Defense Unicorns
-# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
-
 kind: UDSBundle
+
 metadata:
   name: excalidraw-test
-  description: A UDS bundle for deploying Excalidraw and its dependencies on a development cluster
+  description: Local development bundle for Excalidraw
   version: dev
 
 packages:
   - name: excalidraw
     path: ../
-    ref: dev
+    ref: 0.18.0-uds.0-upstream
+
+    overrides:
+      excalidraw:
+        uds-excalidraw-config:
+          values:
+            - path: domain
+              value:
+                host: excalidraw
+                name: uds.dev
+
+            - path: sso.groups
+              value:
+                - "/UDS Core/Admin"
+
+        excalidraw:
+          values:
+            - path: replicaCount
+              value: 1

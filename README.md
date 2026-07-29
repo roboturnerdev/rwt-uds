@@ -30,15 +30,13 @@
   - if component has no flavor it is always included
   - use flavor to label a meaningful distribution
   - example if there is a specific hardened version once securityContext is working fully
+- `uds run dev`
+  - the bundle creates the `.tar.zst` with chart version information, but the tool looks for it without that name
+  - had to change bundle name to `chart-version-uds-bundle-version-flavorname`
+- the zarf management of the package wraps plenty of health checking, config validation, logging, and QoL much desired.
+- the istio image wasnt present so i reran the uds run default to restore cluster state
+- verbose logging, clear errors
 
-### Build
+### Commands
 
-uds run create
-
-### Deploy
-
-uds run deploy
-
-### Test
-
-uds run test
+`uds run dev`
