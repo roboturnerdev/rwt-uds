@@ -41,8 +41,17 @@
 
 ### Commands
 
-`uds run default`
+```bash
+# no cluster
+uds run default
+
+# existing cluster
+uds run dev
+
+# extra useful commands
 
 `uds zarf package list`
 
-`uds zarf package remove excalidraw`
+`uds zarf package remove [name]`
+
+```
