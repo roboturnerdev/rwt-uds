@@ -11,12 +11,20 @@ components:
   - name: excalidraw
     required: true
     charts:
+      # App Chart
+      - name: excalidraw
+        releaseName: excalidraw
+        namespace: excalidraw
+        version: 0.1.0
+        localPath: ../charts/excalidraw
+        valuesFiles:
+          - ../values/common-values.yaml
+      
+      # UDS config chart
       - name: uds-excalidraw-config
+        releaseName: uds-excalidraw-config
         namespace: excalidraw
         version: 0.1.0
         localPath: ../chart
-      - name: excalidraw
-        namespace: excalidraw
-        version: 0.1.0
         valuesFiles:
-          - ../values/common-values.yaml
+          - ../values/config-values.yaml

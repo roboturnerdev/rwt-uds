@@ -22,6 +22,10 @@
   - pepr enforcing securitycontext
     - add temporary writable fs for nginx
     - working mvp helm chart for excalidraw
+- now uds package config chart
+  - flush out "application" style helm chart to wrap config
+  - separates app chart from uds package config
+- 
 
 
 ### Build

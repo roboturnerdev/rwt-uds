@@ -3,6 +3,25 @@
 
 # Values common to all flavors
 
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+serviceAccount:
+  create: true
+  name: excalidraw
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
 # Security
 
 # Excalidraw not happy with this

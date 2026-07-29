@@ -8,6 +8,8 @@ Details about the Excalidraw package and requirements of [badging](https://githu
 Example: "The Upstream implementation of APP_XYZ does not expose a metrics endpoint, issue [#123](https://upstream.project/issue/123) has been opened to track this feature request."
 -->
 
-## <Requirement X> 
+## Health Check
+
+- there is no Prometheus monitoring endpoint, so `chart/templates/uds-package.yaml` checks `/` path. 
 
 ### Additional Information

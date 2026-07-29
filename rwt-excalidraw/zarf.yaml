@@ -3,31 +3,41 @@
 
 # yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
 kind: ZarfPackageConfig
+
 metadata:
   name: excalidraw
-  description: "UDS Excalidraw package"
-  version: "dev"
-  annotations:
-    dev.uds.title: excalidraw
-    dev.uds.tagline: "World Wildest Whiteboard"
-    dev.uds.categories: "creative"
-    dev.uds.keywords: "draw"
-    dev.uds.icon: ""
+  description: Excalidraw packaged for disconnected deployment on UDS Core
+  version: "0.18.0-uds.0"
+  vendor: Excalidraw Community
+  source: https://github.com/excalidraw/excalidraw
 
-variables:
-  - name: DOMAIN
-    default: "uds.dev"
+  annotations:
+    dev.uds.title: "Excalidraw"
+    dev.uds.categories: "Collaboration, Productivity, Web"
+    dev.uds.keywords: "Whiteboard, Diagramming, Drawing, Canvas, Collaboration"
+    dev.uds.tagline: "Open source virtual whiteboard for diagrams"
+
+documentation:
+  readme: docs/README.md
+  configuration: docs/configuration.md
+  dependencies: docs/dependencies.md
+  justifications: docs/justifications.md
 
 components:
   - name: excalidraw
+    description: Deploy the upstream Excalidraw frontend
     required: true
-    description: "Deploy Excalidraw"
+
     import:
       path: common
+
     only:
-      flavor: local
+      flavor: upstream
+
     charts:
       - name: excalidraw
         valuesFiles:
           - values/upstream-values.yaml
-    images: []
+
+    images:
+      - docker.io/excalidraw/excalidraw@sha256:f7ee194addd607bf831d2af0f0a34463dd4225e426cf35199ef0b12a803398e9

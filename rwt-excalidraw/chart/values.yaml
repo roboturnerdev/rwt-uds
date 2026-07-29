@@ -3,4 +3,23 @@
 
 # Support for custom `network.allow` entries on the Package CR
 # https://docs.defenseunicorns.com/core/how-to-guides/networking/define-network-access/
+
+domain:
+  host: excalidraw
+  name: uds.dev
+
+service:
+  name: excalidraw
+  port: 80
+  targetPort: 80
+
+selector:
+  app.kubernetes.io/name: excalidraw
+
+sso:
+  enabled: true
+  clientId: uds-productivity-excalidraw
+  groups:
+    - "/UDS Core/Admin"
+
 additionalNetworkAllow: []

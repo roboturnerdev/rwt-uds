@@ -1,37 +1,47 @@
-# Copyright 2024 Defense Unicorns
-# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
-
 apiVersion: uds.dev/v1alpha1
 kind: Package
 metadata:
   name: excalidraw
   namespace: {{ .Release.Namespace }}
-# Full Package CR spec reference:
-# https://docs.defenseunicorns.com/core/reference/operator--crds/packages-v1alpha1-cr/
 spec:
-  # Customize network policies and expose services via istio
   network:
     serviceMesh:
       mode: ambient
     expose:
-      - service: excalidraw
+      - description: Excalidraw web application
+        service: {{ .Values.service.name }}
         selector:
-          app: excalidraw
+          {{- toYaml .Values.selector | nindent 10 }}
         gateway: tenant
-        host: excalidraw
-        port: #TEMPLATE_APPLICATION_PORT#
+        host: {{ .Values.domain.host }}
+        port: {{ .Values.service.port }}
+        targetPort: {{ .Values.service.targetPort }}
         uptime:
           checks:
             paths:
-              - /
+              - / # there is no prometheus metrics so this will have to do
+
+    # Excalidraw is a static frontend and has no required application
+    # dependencies or external egress in this package scope.
     allow:
-      - direction: Ingress
-        remoteGenerated: IntraNamespace
-
-      - direction: Egress
-        remoteGenerated: IntraNamespace
-
-      # Custom rules for unanticipated scenarios
       {{- with .Values.additionalNetworkAllow }}
-      {{ toYaml . | nindent 6 }}
+      {{- toYaml . | nindent 6 }}
+      {{- else }}
+      []
       {{- end }}
+  {{- if .Values.sso.enabled }}
+  sso:
+    - name: Excalidraw Login
+      protocol: openid-connect
+      clientId: {{ .Values.sso.clientId }}
+      # Authservice redirect URIs cannot use only the root path.
+      redirectUris:
+        - "https://{{ .Values.domain.host }}.{{ .Values.domain.name }}/login"
+      enableAuthserviceSelector:
+        {{- toYaml .Values.selector | nindent 8 }}
+      groups:
+        anyOf:
+          {{- range .Values.sso.groups }}
+          - {{ . | quote }}
+          {{- end }}
+  {{- end }}
