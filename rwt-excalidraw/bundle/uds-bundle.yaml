@@ -3,11 +3,11 @@
 
 kind: UDSBundle
 metadata:
-  name: #TEMPLATE_APPLICATION_NAME#-test
-  description: A UDS bundle for deploying #TEMPLATE_APPLICATION_DISPLAY_NAME# and its dependencies on a development cluster
+  name: excalidraw-test
+  description: A UDS bundle for deploying Excalidraw and its dependencies on a development cluster
   version: dev
 
 packages:
-  - name: #TEMPLATE_APPLICATION_NAME#
+  - name: excalidraw
     path: ../
     ref: dev

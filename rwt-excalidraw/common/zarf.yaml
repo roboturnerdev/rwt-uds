@@ -4,19 +4,19 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
 kind: ZarfPackageConfig
 metadata:
-  name: #TEMPLATE_APPLICATION_NAME#-common
-  description: "UDS #TEMPLATE_APPLICATION_DISPLAY_NAME# Common Package"
+  name: excalidraw-common
+  description: "UDS Excalidraw Common Package"
 
 components:
-  - name: #TEMPLATE_APPLICATION_NAME#
+  - name: excalidraw
     required: true
     charts:
-      - name: uds-#TEMPLATE_APPLICATION_NAME#-config
-        namespace: #TEMPLATE_APPLICATION_NAME#
+      - name: uds-excalidraw-config
+        namespace: excalidraw
         version: 0.1.0
         localPath: ../chart
-      - name: #TEMPLATE_APPLICATION_NAME#
-        namespace: #TEMPLATE_APPLICATION_NAME#
+      - name: excalidraw
+        namespace: excalidraw
         url: #TEMPLATE_CHART_REPO#
         gitPath: chart
         version: 1.2.3

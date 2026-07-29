@@ -12,7 +12,7 @@
   ],
   "packageRules": [
     {
-      "groupName": "#TEMPLATE_APPLICATION_DISPLAY_NAME# Support Dependencies",
+      "groupName": "Excalidraw Support Dependencies",
       "labels": [
         "support-deps"
       ],
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "groupName": "#TEMPLATE_APPLICATION_DISPLAY_NAME# Package Dependencies",
+      "groupName": "Excalidraw Package Dependencies",
       "labels": [
         "package-deps"
       ],
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "groupName": "#TEMPLATE_APPLICATION_DISPLAY_NAME# Package Dependencies",
+      "groupName": "Excalidraw Package Dependencies",
       "labels": [
         "package-deps"
       ],

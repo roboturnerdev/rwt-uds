@@ -4,7 +4,7 @@
 apiVersion: uds.dev/v1alpha1
 kind: Package
 metadata:
-  name: #TEMPLATE_APPLICATION_NAME#
+  name: excalidraw
   namespace: {{ .Release.Namespace }}
 # Full Package CR spec reference:
 # https://docs.defenseunicorns.com/core/reference/operator--crds/packages-v1alpha1-cr/
@@ -14,11 +14,11 @@ spec:
     serviceMesh:
       mode: ambient
     expose:
-      - service: #TEMPLATE_APPLICATION_NAME#
+      - service: excalidraw
         selector:
-          app: #TEMPLATE_APPLICATION_NAME#
+          app: excalidraw
         gateway: tenant
-        host: #TEMPLATE_APPLICATION_NAME#
+        host: excalidraw
         port: #TEMPLATE_APPLICATION_PORT#
         uptime:
           checks:

@@ -1,6 +1,6 @@
-# UDS Package #TEMPLATE_APPLICATION_DISPLAY_NAME#
+# UDS Package Excalidraw
 
-This package deploys [#TEMPLATE_APPLICATION_DISPLAY_NAME#](#TEMPLATE_CHART_REPO#) on [UDS Core](https://github.com/defenseunicorns/uds-core).
+This package deploys [Excalidraw](#TEMPLATE_CHART_REPO#) on [UDS Core](https://github.com/defenseunicorns/uds-core).
 
 > 1-2 sentence summary of what the application does.
 
@@ -14,7 +14,7 @@ This package ships an `upstream` flavor by default. Add `registry1` or `unicorn`
 
 ## Releases
 
-Released packages are available in [GHCR](https://github.com/uds-packages/#TEMPLATE_APPLICATION_NAME#/pkgs/container/#TEMPLATE_APPLICATION_NAME#).
+Released packages are available in [GHCR](https://github.com/uds-packages/excalidraw/pkgs/container/excalidraw).
 
 ## Local development
 
