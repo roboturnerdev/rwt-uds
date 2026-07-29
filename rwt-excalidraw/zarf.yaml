@@ -1,0 +1,33 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
+# yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
+kind: ZarfPackageConfig
+metadata:
+  name: excalidraw
+  description: "UDS Excalidraw package"
+  version: "dev"
+  annotations:
+    dev.uds.title: excalidraw
+    dev.uds.tagline: "World Wildest Whiteboard"
+    dev.uds.categories: "creative"
+    dev.uds.keywords: "draw"
+    dev.uds.icon: ""
+
+variables:
+  - name: DOMAIN
+    default: "uds.dev"
+
+components:
+  - name: excalidraw
+    required: true
+    description: "Deploy Excalidraw"
+    import:
+      path: common
+    only:
+      flavor: local
+    charts:
+      - name: excalidraw
+        valuesFiles:
+          - values/upstream-values.yaml
+    images: []
