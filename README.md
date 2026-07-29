@@ -50,8 +50,16 @@ uds run dev
 
 # extra useful commands
 
-`uds zarf package list`
+uds zarf package list
 
-`uds zarf package remove [name]`
+uds zarf package remove [name]
+
+# keycloak make a user
+uds zarf connect keycloak
+
+# retrieve admin password from k8s secret
+# change to uds realm
+# add doug to UDS Core/Admin
+# login to excalidraw.uds.dev
 
 ```
