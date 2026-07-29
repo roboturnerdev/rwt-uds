@@ -36,7 +36,13 @@
 - the zarf management of the package wraps plenty of health checking, config validation, logging, and QoL much desired.
 - the istio image wasnt present so i reran the uds run default to restore cluster state
 - verbose logging, clear errors
+- package produced a bad state where image tag wasnt available in the local registry
+  - 
 
 ### Commands
 
-`uds run dev`
+`uds run default`
+
+`uds zarf package list`
+
+`uds zarf package remove excalidraw`
