@@ -37,7 +37,10 @@
 - the istio image wasnt present so i reran the uds run default to restore cluster state
 - verbose logging, clear errors
 - package produced a bad state where image tag wasnt available in the local registry
-  - 
+
+![code](./images/code.png)
+
+![excalidraw](./images/excalidraw-1.png)
 
 ### Commands
 
