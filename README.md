@@ -17,6 +17,8 @@
 - used package template and replace/renamed things
 - create local excalidraw chart (no upstream)
   - `mkdir -p charts && cd charts && helm create excalidraw`
+- replace templates everywhere
+- 
 
 
 ### Build
