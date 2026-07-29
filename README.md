@@ -25,8 +25,11 @@
 - now uds package config chart
   - flush out "application" style helm chart to wrap config
   - separates app chart from uds package config
-- 
-
+- components and flavor distinction
+  - only.flavor restricts
+  - if component has no flavor it is always included
+  - use flavor to label a meaningful distribution
+  - example if there is a specific hardened version once securityContext is working fully
 
 ### Build
 
