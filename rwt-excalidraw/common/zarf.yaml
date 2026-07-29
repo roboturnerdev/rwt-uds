@@ -17,8 +17,6 @@ components:
         localPath: ../chart
       - name: excalidraw
         namespace: excalidraw
-        url: #TEMPLATE_CHART_REPO#
-        gitPath: chart
-        version: 1.2.3
+        version: 0.1.0
         valuesFiles:
           - ../values/common-values.yaml
