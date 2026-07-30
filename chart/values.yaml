@@ -21,6 +21,6 @@ sso:
   enabled: true
   clientId: uds-productivity-excalidraw
   groups:
-    - "/UDS Core/Admin"
+    - "/Excalidraw/Users"
 
 additionalNetworkAllow: []

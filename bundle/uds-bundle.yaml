@@ -21,7 +21,7 @@ packages:
 
             - path: sso.groups
               value:
-                - "/UDS Core/Admin"
+                - "/Excalidraw/Users"
 
         excalidraw:
           values:

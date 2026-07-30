@@ -95,6 +95,32 @@
 - sbom gen
   - `uds zarf package inspect sbom "$PACKAGE" --output .artifacts/sbom`
 
+#### Todo's
+
+- make a hardened flavor able to run in security context
+  - non-root, read-only root fs, drop all cap, no privilege escalation, unprivileged high port for http web server
+  - build custom image
+    - `node:22-alpine@sha256<digest>` find one of these
+    - 101:101
+    - create non-root nginx config
+      - listen on high port (8080 or something)
+    - test locally and inspect, try exec
+  - publish and pin hardened digest image
+  - update helm chart service targetPort
+  - update UDS config values
+  - restore securityContext configurations everywhere
+  - add a flavor to the roof zarf
+  - compare both zarf packages via inspect and validate images and config
+- helm template required fields for error handling
+  - uds config chart
+- document SSO disablement
+- document network changes
+  - default allow list is for a static frontend with no egress
+  - package can be extended for dependencies based on `additionalNetworkAllow`
+  - and what adding it means
+-
+
+
 ### Commands
 
 ```bash
