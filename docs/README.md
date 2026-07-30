@@ -1,3 +1,3 @@
-# Excalidraw UDS Bundle
+# Excalidraw
 
 Test

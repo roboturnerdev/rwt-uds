@@ -7,14 +7,14 @@ kind: ZarfPackageConfig
 metadata:
   name: excalidraw
   description: Excalidraw packaged for disconnected deployment on UDS Core
-  version: "0.18.0-uds.0"
+  version: "0.18.1-uds.0"
   vendor: Excalidraw Community
   source: https://github.com/excalidraw/excalidraw
 
   annotations:
     dev.uds.title: "Excalidraw"
-    dev.uds.categories: "Collaboration, Productivity, Web"
-    dev.uds.keywords: "Whiteboard, Diagramming, Drawing, Canvas, Collaboration"
+    dev.uds.categories: "Productivity, Web"
+    dev.uds.keywords: "Whiteboard, Diagramming, Drawing, Canvas"
     dev.uds.tagline: "Open source virtual whiteboard for diagrams"
 
 documentation:

@@ -8,7 +8,7 @@ metadata:
 packages:
   - name: excalidraw
     path: ../
-    ref: 0.18.0-uds.0-upstream
+    ref: 0.18.1-uds.0-upstream
 
     overrides:
       excalidraw:

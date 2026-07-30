@@ -57,6 +57,31 @@
   - monitoring with grafana and prometheus
 
 
+### Day 2 Fixes
+
+- make these aligned:
+  - source release
+    - `zarf.yaml`
+      - match Github release tag to digest
+      - complete UDS/Zarf package release
+  - container image
+    - digest based instead of latest
+    - `zarf.yaml` components.images
+    - `charts/excalidraw/values.yaml` image.repository + image.digest
+  - helm app version
+    - `charts/excalidraw/Chart.yaml`
+      - match appVersion to Github relase tag not digest
+  - uds package version
+    - `bundle/uds-bundle.yaml` packages.ref
+    - `0.18.1-uds.0-upstream` <appVersion>-<uds-version>-<flavor>
+- provenance.md
+  - describe artifact source
+  - describe build process
+- align `bundle/uds-bundle.yaml` version
+  - 
+- sbom gen
+  - `uds zarf package inspect sbom "$PACKAGE" --output .artifacts/sbom`
+
 ### Commands
 
 ```bash
