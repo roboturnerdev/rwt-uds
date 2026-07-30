@@ -3,7 +3,7 @@ kind: UDSBundle
 metadata:
   name: excalidraw-test
   description: Local development bundle for Excalidraw
-  version: dev
+  version: 0.18.1-uds.0-upstream
 
 packages:
   - name: excalidraw

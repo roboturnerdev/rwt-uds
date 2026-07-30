@@ -78,7 +78,20 @@
   - describe artifact source
   - describe build process
 - align `bundle/uds-bundle.yaml` version
-  - 
+  - 3 version concepts: bundle version, package reference, runner task name
+  - bundle file says ref 0.18.1-uds.0-upstream
+    - `metadata.version: dev` version of the bundle artifact itself
+      - names the output `uds-bundle-excalidraw-test-amd64-dev.tar.zst`
+    - `packages.ref: 0.18.1-uds.0-upstream` tell UDS which Zarf package to put inside the bundle
+      - `zarf-package-excalidraw-amd64-0.18.0-uds.0-upstream.tar.zst`
+  - UDS Common workflow uses dev the main dev branch represent an unreleased build
+    - actual release version is declared in `releaser.yaml`
+      - `releaser.yaml` flavors.version <version>-uds.0
+      - development source uses dev, release process uses real version
+      - UDS Common tasks are designed around this model
+      - bundle packages.ref must point to a package that exists
+      - use dev everywhere (package bundle and ref) if using the full release pipeline
+      - if i add excalidraw package to a bundle for a customer, the bundle has a separate version unique to the customer (i.e 1.0.0), and the package within can still version excalidraw at (0.18.1-uds.0)
 - sbom gen
   - `uds zarf package inspect sbom "$PACKAGE" --output .artifacts/sbom`
 

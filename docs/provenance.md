@@ -23,3 +23,4 @@ docker build \
   --label org.opencontainers.image.revision=a2ec2889babf7d2295469c6d90ebe77fae57df84 \
   --tag ghcr.io/roboturnerdev/excalidraw:0.18.1-upstream.0 \
   .
+```
