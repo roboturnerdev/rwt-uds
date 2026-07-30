@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: excalidraw
+  name: {{ include "excalidraw.fullname" . }}
   labels:
     {{- include "excalidraw.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   selector:
-    app.kubernetes.io/name: excalidraw
+    {{- include "excalidraw.selectorLabels" . | nindent 4 }}
   ports:
     - name: http
       port: {{ .Values.service.port }}

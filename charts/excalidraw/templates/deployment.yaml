@@ -1,23 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: excalidraw
+  name: {{ include "excalidraw.fullname" . }}
   labels:
     {{- include "excalidraw.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: excalidraw
+      {{- include "excalidraw.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-        app.kubernetes.io/name: excalidraw
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- include "excalidraw.selectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ default "excalidraw" .Values.serviceAccount.name }}
       automountServiceAccountToken: false
       securityContext:
@@ -47,8 +54,11 @@ spec:
               mountPath: /tmp
       volumes:
         - name: nginx-cache
-          emptyDir: {}
+          emptyDir:
+            sizeLimit: {{ .Values.volumes.nginxCache.sizeLimit }}
         - name: nginx-run
-          emptyDir: {}
+          emptyDir:
+            sizeLimit: {{ .Values.volumes.nginxRun.sizeLimit }}
         - name: tmp
-          emptyDir: {}
+          emptyDir:
+            sizeLimit: {{ .Values.volumes.tmp.sizeLimit }}

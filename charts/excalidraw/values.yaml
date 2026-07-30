@@ -1,15 +1,42 @@
+
 image:
   repository: docker.io/excalidraw/excalidraw
   digest: "sha256:f7ee194addd607bf831d2af0f0a34463dd4225e426cf35199ef0b12a803398e9"
   pullPolicy: IfNotPresent
 
+imagePullSecrets: []
+
+replicaCount: 1
+
 serviceAccount:
   create: true
   name: ""
+  annotations: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
 
 podLabels:
   app.kubernetes.io/name: excalidraw
 
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# limit the nginx writable volumes
+volumes:
+  nginxCache:
+    sizeLimit: 64Mi
+  nginxRun:
+    sizeLimit: 8Mi
+  tmp:
+    sizeLimit: 64Mi
 
 readinessProbe:
   httpGet:
@@ -24,3 +51,12 @@ livenessProbe:
     port: http
   initialDelaySeconds: 15
   periodSeconds: 20
+
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}

@@ -15,6 +15,7 @@ service:
 
 selector:
   app.kubernetes.io/name: excalidraw
+  app.kubernetes.io/instance: excalidraw
 
 sso:
   enabled: true
