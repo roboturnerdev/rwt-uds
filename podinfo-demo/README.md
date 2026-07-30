@@ -38,9 +38,24 @@
 - verbose logging, clear errors
 - package produced a bad state where image tag wasnt available in the local registry
 
-![code](./images/code.png)
+## Notes
 
-![excalidraw](./images/excalidraw-1.png)
+- Zarf
+  - packages and transports software
+- UDS Package
+  - workload integration with UDS Core platform
+- UDS Core
+  - shared platform services
+  - owns Istio, Ambient Mesh / mTLS, Keycloak, Authservice, UDS Operator, Prom, Grafana, Loki, Pepr, Runtime Security, Backups (Velero), Portal
+- UDS Bundle
+  - combine packages and environment config
+
+- the `chart/` dir is what makes this excalidraw a UDS Package
+  - expose this service through the gateway
+  - apply SSO (authservice layer since no native OIDC)
+  - network policies
+  - monitoring with grafana and prometheus
+
 
 ### Commands
 

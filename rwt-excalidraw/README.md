@@ -1,4 +1,4 @@
-# UDS Package Template
+# UDS Package Template - Excalidraw
 
 A starting point for creating a new [UDS Package](https://docs.defenseunicorns.com/core/concepts/configuration-and-packaging/package-requirements/) on [UDS Core](https://github.com/defenseunicorns/uds-core).
 
@@ -30,15 +30,6 @@ These files are specific to Defense Unicorns infrastructure and may not apply to
 - `releaser.yaml`
 - `renovate.json`
 - `.github/workflows` — the workflows are reusable, but runners, tokens, and secrets need to be updated to match your environment.
-
-## Excalidraw
-
-Happy testing how UDS works and can integrate a zarf package into the platform.
-
-![code](./images/code.png)
-
-![excalidraw](./images/excalidraw-1.png)
-
 
 ## Contributing
 
