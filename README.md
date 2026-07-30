@@ -1,4 +1,4 @@
-# UDS Package Template
+# Excalidraw UDS Package
 
 A starting point for creating a new [UDS Package](https://docs.defenseunicorns.com/core/concepts/configuration-and-packaging/package-requirements/) on [UDS Core](https://github.com/defenseunicorns/uds-core).
 
