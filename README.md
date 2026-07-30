@@ -1,68 +1,41 @@
-# Defense Unicorns UDS Test
+# UDS Package Template
 
-## Demo
+A starting point for creating a new [UDS Package](https://docs.defenseunicorns.com/core/concepts/configuration-and-packaging/package-requirements/) on [UDS Core](https://github.com/defenseunicorns/uds-core).
 
-- demo went fine
-  - custom user in task file easy to understand (edit bash script, zarf variables, sensitive values)
-  - keycloak group, sso to Grafana and keycloak admin with mfa worked one shot
-  - sso to podinfo wowee
-  - great out of the box experience, clear config areas, excellent documentation
+> [!TIP]
+> Found an issue with the template or want to contribute? See [Contributing](#contributing).
 
-## Excalidraw Test
+## Creating a package from this template
 
-- want to add my own uds package
-  - put podinfo-demo away in a folder
-- zarf yaml schema vs maru yaml schema
-- uds package requirements (DU engineer mandatory)
-- used package template and replace/renamed things
-- create local excalidraw chart (no upstream)
-  - `mkdir -p charts && cd charts && helm create excalidraw`
-- replace templates everywhere
-- build basic excalidraw helm chart
-  - pepr enforcing securitycontext
-    - add temporary writable fs for nginx
-    - working mvp helm chart for excalidraw
-- now uds package config chart
-  - flush out "application" style helm chart to wrap config
-  - separates app chart from uds package config
-- components and flavor distinction
-  - only.flavor restricts
-  - if component has no flavor it is always included
-  - use flavor to label a meaningful distribution
-  - example if there is a specific hardened version once securityContext is working fully
-- `uds run dev`
-  - the bundle creates the `.tar.zst` with chart version information, but the tool looks for it without that name
-  - had to change bundle name to `chart-version-uds-bundle-version-flavorname`
-- the zarf management of the package wraps plenty of health checking, config validation, logging, and QoL much desired.
-- the istio image wasnt present so i reran the uds run default to restore cluster state
-- verbose logging, clear errors
-- package produced a bad state where image tag wasnt available in the local registry
+The canonical guide for turning this scaffolding into a working package is [Create a UDS Package](https://docs.defenseunicorns.com/core/how-to-guides/packaging-applications/create-uds-package/). It walks through the placeholder substitution, Zarf and chart configuration, the `Package` CR, and the dev/test bundle.
 
-![code](./images/code.png)
+After working through that guide, finish the template-specific cleanup below.
 
-![excalidraw](./images/excalidraw-1.png)
+## Template cleanup checklist
 
-### Commands
+These items are specific to this template repo and aren't covered in the canonical doc:
 
-```bash
-# no cluster
-uds run default
+- [x] Remove the `ci-setup` task from [`tasks.yaml`](./tasks.yaml). It exists only so this template's own CI can validate the scaffolding using podinfo. To remove:
+  - Delete the `ci-setup` task block, including the two `#### Template CI: Remove ... ####` comment markers that wrap it.
+  - Delete the `- task: ci-setup` line under the `test-install` task.
+- [x] `mv README-template.md README.md` and customize for your package.
+- [x] Update `CODEOWNERS` following the guidance in `CODEOWNERS-template.md`, then `rm CODEOWNERS-template.md`.
+- [x] If your application has a UI, rename `tests/template-application-name.test.ts` to `tests/<app-name>.test.ts` and customize it for your app. If your application has no UI, delete `tests/template-application-name.test.ts`, `tests/auth.setup.ts`, and the `ui` task in [`tasks/test.yaml`](./tasks/test.yaml).
+- [ ] When ready to publish your first release, uncomment [`releaser.yaml`](./releaser.yaml) and set the version. Add `registry1` / `unicorn` entries if you've added those flavors.
 
-# existing cluster
-uds run dev
+## Engineers external to Defense Unicorns
 
-# extra useful commands
+These files are specific to Defense Unicorns infrastructure and may not apply to your situation:
 
-uds zarf package list
+- `releaser.yaml`
+- `renovate.json`
+- `.github/workflows` — the workflows are reusable, but runners, tokens, and secrets need to be updated to match your environment.
 
-uds zarf package remove [name]
+## Contributing
 
-# keycloak make a user
-uds zarf connect keycloak
+> [!NOTE]
+> As a template repository, the [CONTRIBUTING.md](./CONTRIBUTING.md) file is part of the *template* — not the contributing guidelines for this repository itself.
 
-# retrieve admin password from k8s secret
-# change to uds realm
-# add doug to UDS Core/Admin
-# login to excalidraw.uds.dev
+This template repository is part of Defense Unicorns' Unicorn Delivery Service and follows the contributing guidelines in [`uds-common/CONTRIBUTING.md`](https://github.com/defenseunicorns/uds-common/blob/main/CONTRIBUTING.md).
 
-```
+[Open an issue](https://github.com/uds-packages/template/issues/new/choose) for defects or feature requests.
