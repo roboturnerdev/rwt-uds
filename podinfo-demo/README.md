@@ -118,7 +118,31 @@
   - default allow list is for a static frontend with no egress
   - package can be extended for dependencies based on `additionalNetworkAllow`
   - and what adding it means
--
+- flesh out test stubs (playwright)
+  - pass creds in environment variables
+  - test unauthorized redirects
+  - test authorized access
+  - test unauthorized denial
+  - test journey
+    - draw simple thing, refresh the page, then export it
+  - test ingress
+    - separate redirects as 200 from keycloak via redirect isnt the whole story
+  - test internal service
+    - pod -> service dns -> service -> app container
+- establish CI
+  - not really expecting this due to this being a test package
+  - validation scripts, verify package, render artifacts, sbom
+  - github actions flow based on pr 
+  - invoke tests
+  - upgrade testing only after release exists
+  - define branch checks
+- fix documentation thoroughly
+  - what is this app
+  - who owns it
+  - how is it built
+  - what it supports
+  - how to report problems
+  - how to upgrade it safely
 
 
 ### Commands
